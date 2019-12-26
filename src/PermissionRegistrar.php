@@ -8,7 +8,8 @@ use Qingliu\Permission\Contracts\Permission;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 
-class PermissionRegistrar {
+class PermissionRegistrar
+{
 
     /**
      * @var \Psr\Container\ContainerInterface
@@ -38,7 +39,8 @@ class PermissionRegistrar {
     /** @var string */
     public static $cacheModelKey;
 
-    public function __construct(ContainerInterface $container, CacheInterface $cache) {
+    public function __construct(ContainerInterface $container, CacheInterface $cache)
+    {
 
         $this->container            = $container;
         $this->cache                = $cache;
@@ -56,7 +58,8 @@ class PermissionRegistrar {
      * @return bool
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function forgetCachedPermissions() {
+    public function forgetCachedPermissions()
+    {
         $this->permissions = null;
 
         return $this->cache->delete(self::$cacheKey);
@@ -67,7 +70,8 @@ class PermissionRegistrar {
      * @return Collection
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getPermissions(array $params = []): Collection {
+    public function getPermissions(array $params = []): Collection
+    {
         if ($this->permissions === null) {
             if ($this->cache->has(self::$cacheKey)) {
                 $this->permissions = $this->cache->get(self::$cacheKey);
@@ -92,11 +96,13 @@ class PermissionRegistrar {
      * Get an instance of the permission class.
      * @return Permission
      */
-    public function getPermissionClass(): Permission {
+    public function getPermissionClass(): Permission
+    {
         return $this->container->get($this->permissionClass);
     }
 
-    public function setPermissionClass($permissionClass) {
+    public function setPermissionClass($permissionClass)
+    {
         $this->permissionClass = $permissionClass;
 
         return $this;
@@ -106,7 +112,8 @@ class PermissionRegistrar {
      * Get an instance of the role class.
      * @return Role
      */
-    public function getRoleClass(): Role {
+    public function getRoleClass(): Role
+    {
         return $this->container->get($this->roleClass);
     }
 }

@@ -68,6 +68,10 @@ class Role extends Model implements RoleContract
         throw RoleDoesNotExist::named($name);
     }
 
+    /**
+     * @param int $id
+     * @return Role
+     */
     public static function findById(int $id): RoleContract
     {
         /** @var self $role */

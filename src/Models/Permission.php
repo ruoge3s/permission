@@ -18,11 +18,11 @@ use Qingliu\Permission\Contracts\Permission as PermissionContract;
 /**
  * Class Permission
  * @property BelongsToMany|Collection roles
+ * @method Permission assignRole(...$roles)
  * @package Qingliu\Permission\Models
  */
 class Permission extends Model implements PermissionContract
 {
-
     use HasRoles;
     use RefreshesPermissionCache;
 
@@ -76,15 +76,15 @@ class Permission extends Model implements PermissionContract
     /**
      * Find a permission by its id.
      * @param int $id
-     * @return PermissionContract
+     * @return Permission
      */
     public static function findById(int $id): PermissionContract
     {
         $permission = static::getPermissions(['id' => $id])->first();
-        if (!$permission) {
-            throw PermissionDoesNotExist::withId($id);
+        if ($permission) {
+            return $permission;
         }
-        return $permission;
+        throw PermissionDoesNotExist::withId($id);
     }
 
     /**
