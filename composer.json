@@ -1,0 +1,52 @@
+{
+    "name": "ruoge3s/permission",
+    "description": "用于hyperf的permission组件",
+    "keywords": [
+        "hyperf",
+        "permission",
+        "permissions",
+        "roles",
+        "acl",
+        "rbac",
+        "security"
+    ],
+    "license": "MIT",
+    "authors": [],
+    "require": {
+        "php": "^7.2",
+        "ext-swoole": ">=4.4",
+        "hyperf/cache": "~1.1.0",
+        "hyperf/command": "^1.1",
+        "hyperf/config": "^1.1",
+        "hyperf/database": "~1.1.0",
+        "hyperf/db-connection": "^1.1",
+        "hyperf/utils": "~1.1.0"
+    },
+    "require-dev": {
+        "hyperf/testing": "~1.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qingliu\\Permission\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {}
+    },
+    "extra": {
+        "hyperf": {
+            "config": "Qingliu\\Permission\\ConfigProvider"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
