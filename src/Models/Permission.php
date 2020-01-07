@@ -103,29 +103,6 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * 获取树形的permission列表.
-     * @param int||string $parentId 父级ID
-     * @param bool $isUrl 是否是一个URL
-     * @param Collection $permission 传入permission集合，如果不传将从所有的permission生成
-     * @return Collection
-     */
-    public static function getMenuList($parentId = 0, $isUrl = false, Collection $permission = null)
-    {
-        is_int($parentId) && $parentId = "$parentId";
-        !$permission && $permission = self::getPermissions();
-        $menus = $permission->where('parent_id', $parentId)->sortByDesc('sort')->values();
-        if ($isUrl) {
-            $menus = $menus->filter(function($value, $key) {
-                return !empty($value->url);
-            });
-        }
-        foreach ($menus as $menu) {
-            $menu['child'] = self::getMenuList($menu['id'], $isUrl, $permission);
-        }
-        return $menus;
-    }
-
-    /**
      * Get the current cached permissions.
      * @param array $params
      * @return Collection

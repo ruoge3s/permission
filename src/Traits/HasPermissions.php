@@ -14,6 +14,12 @@ use Qingliu\Permission\Exceptions\PermissionDoesNotExist;
 use Hyperf\Database\Model\Events\Deleting;
 use Qingliu\Permission\Models\Permission as ModelPermission;
 
+/**
+ * Trait HasPermissions
+ * @property Collection permissions use的对象所拥有的属性
+ * @method  ModelPermission getModel() use的对象所拥有的属性
+ * @package Qingliu\Permission\Traits
+ */
 trait HasPermissions
 {
 
@@ -68,23 +74,23 @@ trait HasPermissions
                 }, []));
 
         return $query->where(function (Builder $query) use ($permissions, $rolesWithPermissions) {
-                    $query->whereHas('permissions', function (Builder $query) use ($permissions) {
-                        $query->where(function (Builder $query) use ($permissions) {
-                            foreach ($permissions as $permission) {
-                                $query->orWhere(config('permission.table_names.permissions') . '.id', $permission->id);
-                            }
-                        });
-                    });
-                    if (count($rolesWithPermissions) > 0) {
-                        $query->orWhereHas('roles', function (Builder $query) use ($rolesWithPermissions) {
-                            $query->where(function (Builder $query) use ($rolesWithPermissions) {
-                                foreach ($rolesWithPermissions as $role) {
-                                    $query->orWhere(config('permission.table_names.roles') . '.id', $role->id);
-                                }
-                            });
-                        });
+            $query->whereHas('permissions', function (Builder $query) use ($permissions) {
+                $query->where(function (Builder $query) use ($permissions) {
+                    foreach ($permissions as $permission) {
+                        $query->orWhere(config('permission.table_names.permissions') . '.id', $permission->id);
                     }
                 });
+            });
+            if (count($rolesWithPermissions) > 0) {
+                $query->orWhereHas('roles', function (Builder $query) use ($rolesWithPermissions) {
+                    $query->where(function (Builder $query) use ($rolesWithPermissions) {
+                        foreach ($rolesWithPermissions as $role) {
+                            $query->orWhere(config('permission.table_names.roles') . '.id', $role->id);
+                        }
+                    });
+                });
+            }
+        });
     }
 
     /**
@@ -257,14 +263,6 @@ trait HasPermissions
         return $permissions->sort()->values();
     }
 
-    public function getMenu(): Collection
-    {
-        $permission = $this->getAllPermissions();
-        $isUrl = true;
-        $parentId = 0;
-        return ModelPermission::getMenuList($parentId, $isUrl, $permission);
-    }
-
     /**
      * @param mixed ...$permissions
      * @return $this
@@ -296,9 +294,8 @@ trait HasPermissions
 
     /**
      * Remove all current permissions and set the given ones.
-     *
-     *
-     * @return $this
+     * @param mixed ...$permissions
+     * @return HasPermissions
      */
     public function syncPermissions(...$permissions)
     {
@@ -309,8 +306,7 @@ trait HasPermissions
 
     /**
      * Revoke the given permission.
-     *
-     *
+     * @param $permission
      * @return $this
      */
     public function revokePermissionTo($permission)

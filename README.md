@@ -4,18 +4,6 @@
    ```
    php bin/hyperf.php permission:cache-reset
    ```
-- permissions 增加 parent_id,display_name,url,sort字段，用于生成树形菜单，但不是必填。
-   ```
-   $user->getMenu(); // 获取当前登录用户的菜单,即url有值。
-    /**
-     * 获取树形的permission列表.
-     * @param int||string $parentId 父级ID
-     * @param bool $isUrl 是否是一个URL
-     * @param Collection $permission 传入permission集合，如果不传将从所有的permission生成
-     * @return Collection
-     */
-   Permission::getMenuList($parentId = 0, $isUrl = false, Collection $permission = null);
-   ```
 - roles增加description字段,非必填
 
 ## 安装
@@ -82,8 +70,7 @@ $user->removeRole('管理员');
 $user->getRoleNames();
 //获取所有权限
 $user->getAllPermissions();
-//获取树形菜单
-$user->getMenu();
+
 //验证
 $user->can('user-center/user/get');
 $user->can($permission->id);

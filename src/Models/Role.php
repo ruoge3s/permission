@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Qingliu\Permission\Models;
 
 use Hyperf\DbConnection\Model\Model;
+use Hyperf\Utils\Collection;
 use Qingliu\Permission\Traits\HasPermissions;
 use Qingliu\Permission\Exceptions\RoleDoesNotExist;
 use Qingliu\Permission\Exceptions\RoleAlreadyExists;
@@ -14,7 +15,7 @@ use Hyperf\Database\Model\Relations\BelongsToMany;
 
 /**
  * Class Role
- * @property BelongsToMany permissions
+ * @property Collection permissions
  * @package Qingliu\Permission\Models
  */
 class Role extends Model implements RoleContract

@@ -12,6 +12,11 @@ use Qingliu\Permission\PermissionRegistrar;
 use Hyperf\Database\Model\Relations\MorphToMany;
 use Hyperf\Database\Model\Events\Deleting;
 
+/**
+ * Trait HasRoles
+ * @property \Qingliu\Permission\Models\Role|Collection roles
+ * @package Qingliu\Permission\Traits
+ */
 trait HasRoles
 {
 
